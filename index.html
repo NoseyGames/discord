@@ -1,15 +1,75 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Welcome to the NikeHub Discord</title>
-    <meta http-equiv="refresh" content="0; URL=https://discord.gg/Y4uMau4dGy">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joining NikeHub Discord...</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <meta http-equiv="refresh" content="3; URL=https://discord.gg/Y4uMau4dGy">
     <link rel="canonical" href="https://discord.gg/Y4uMau4dGy">
+
+    <style>
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.9; transform: scale(0.98); }
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 3s infinite ease-in-out;
+        }
+        body {
+            background-color: #111111;
+        }
+    </style>
+</head>
+<body class="text-white flex items-center justify-center min-h-screen font-sans antialiased">
+
+    <div class="text-center px-6 py-12 max-w-sm w-full">
+        
+        <div class="mb-8 relative inline-block">
+            <div class="absolute inset-0 bg-white opacity-10 blur-xl rounded-full"></div>
+            
+            <div class="relative w-28 h-28 bg-white rounded-full flex items-center justify-center mx-auto shadow-2xl animate-pulse-slow overflow-hidden border-[6px] border-[#222]">
+                <img 
+                    src="/favicon.png" 
+                    alt="NikeHub Logo" 
+                    class="w-full h-full object-cover"
+                >
+            </div>
+        </div>
+
+        <h1 class="text-3xl font-black italic tracking-tighter mb-2">NIKEHUB</h1>
+        <p class="text-gray-500 uppercase text-[10px] tracking-[0.3em] font-bold mb-8">
+            Authenticating Connection
+        </p>
+
+        <div class="w-full bg-neutral-800 h-[2px] mb-8 rounded-full overflow-hidden">
+            <div id="progress-bar" class="bg-white h-full w-0 transition-all duration-[2500ms] ease-out"></div>
+        </div>
+
+        <p class="text-sm text-neutral-500">
+            Redirecting you to Discord...<br>
+            <a href="https://discord.gg/Y4uMau4dGy" class="inline-block mt-4 text-white font-medium hover:text-gray-300 transition-colors border-b border-neutral-700 pb-1">
+                Click here if you aren't moved automatically
+            </a>
+        </p>
+    </div>
+
     <script>
-      window.location.href = "https://discord.gg/Y4uMau4dGy";
+        // Start the progress bar animation immediately
+        window.onload = function() {
+            setTimeout(() => {
+                const bar = document.getElementById('progress-bar');
+                if (bar) bar.style.width = '100%';
+            }, 50);
+        };
+
+        // Primary JavaScript Redirect (2.8 seconds)
+        setTimeout(function() {
+            window.location.href = "https://discord.gg/Y4uMau4dGy";
+        }, 2800);
     </script>
-  </head>
-  <body>
-    <p>Redirecting you to <a href="https://discord.gg/Y4uMau4dGy">nikehub's discord!</a>...</p>
-  </body>
+
+</body>
 </html>
