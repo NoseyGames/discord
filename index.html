@@ -81,12 +81,6 @@
                 document.getElementById('progress-bar').style.width = '100%';
             }, 100);
 
-            fetch('https://discord.com/api/guilds/YOUR_GUILD_ID/widget.json')
-                .then(res => res.json())
-                .then(data => {
-                    const online = data.presence_count || 0;
-                    const total = data.members?.length || 431;
-                    document.getElementById('member-count').textContent = `${online} online / ${total}+ total`;
                 })
                 .catch(() => {
                     document.getElementById('member-count').textContent = '430+ connected';
