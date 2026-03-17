@@ -3,73 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Joining NikeHub Discord...</title>
-    
+    <title>nikehub discord</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <meta http-equiv="refresh" content="3; URL=https://discord.gg/Y4uMau4dGy">
     <link rel="canonical" href="https://discord.gg/Y4uMau4dGy">
-
     <style>
         @keyframes pulse-slow {
             0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.9; transform: scale(0.98); }
+            50% { opacity: 0.7; transform: scale(0.97); }
         }
         .animate-pulse-slow {
             animation: pulse-slow 3s infinite ease-in-out;
         }
         body {
-            background-color: #111111;
+            background: #000000;
+            overflow: hidden;
+            color: #e0e0e0;
+        }
+        canvas#constellation-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .glow {
+            box-shadow: 0 0 30px rgba(255,255,255,0.08);
+        }
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+        .btn-mono {
+            background: #222222;
+            color: #e0e0e0;
+            border: 1px solid #444444;
+        }
+        .btn-mono:hover {
+            background: #333333;
+            transform: translateY(-1px);
+        }
+        .progress-bg {
+            background: #111111;
+        }
+        .progress-fill {
+            background: linear-gradient(to right, #ffffff, #aaaaaa);
         }
     </style>
 </head>
-<body class="text-white flex items-center justify-center min-h-screen font-sans antialiased">
+<body class="flex items-center justify-center min-h-screen font-sans antialiased">
+    <canvas id="constellation-canvas"></canvas>
 
-    <div class="text-center px-6 py-12 max-w-sm w-full">
-        
+    <div class="content-wrapper text-center px-6 py-12 max-w-sm w-full">
         <div class="mb-8 relative inline-block">
-            <div class="absolute inset-0 bg-white opacity-10 blur-xl rounded-full"></div>
-            
-            <div class="relative w-28 h-28 bg-white rounded-full flex items-center justify-center mx-auto shadow-2xl animate-pulse-slow overflow-hidden border-[6px] border-[#222]">
-                <img 
-                    src="/favicon.png" 
-                    alt="NikeHub Logo" 
-                    class="w-full h-full object-cover"
-                >
+            <div class="absolute inset-0 bg-white opacity-5 blur-2xl rounded-full animate-pulse-slow"></div>
+            <div class="relative w-32 h-32 bg-gradient-to-br from-[#111111] to-[#222222] rounded-full flex items-center justify-center mx-auto shadow-2xl animate-pulse-slow overflow-hidden border-8 border-[#333333] glow">
+                <img src="/favicon.png" alt="NikeHub" class="w-4/5 h-4/5 object-contain filter grayscale">
             </div>
         </div>
-
-        <h1 class="text-3xl font-black italic tracking-tighter mb-2">NIKEHUB</h1>
-        <p class="text-gray-500 uppercase text-[10px] tracking-[0.3em] font-bold mb-8">
-            Authenticating Connection
-        </p>
-
-        <div class="w-full bg-neutral-800 h-[2px] mb-8 rounded-full overflow-hidden">
-            <div id="progress-bar" class="bg-white h-full w-0 transition-all duration-[2500ms] ease-out"></div>
+        <h1 class="text-5xl font-black tracking-tighter mb-3 uppercase">nikehub</h1>
+        <p class="text-gray-500 uppercase text-xs tracking-widest font-bold mb-4">unblocked games • proxies • bypasses</p>
+        <p id="member-count" class="text-lg font-semibold text-gray-300 mb-6">loading...</p>
+        <div class="w-full progress-bg h-1.5 mb-8 rounded-full overflow-hidden glow">
+            <div id="progress-bar" class="progress-fill h-full w-0 transition-all duration-3000 ease-out"></div>
         </div>
-
-        <p class="text-sm text-neutral-500">
-            Redirecting you to Discord...<br>
-            <a href="https://discord.gg/Y4uMau4dGy" class="inline-block mt-4 text-white font-medium hover:text-gray-300 transition-colors border-b border-neutral-700 pb-1">
-                Click here if you aren't moved automatically
-            </a>
+        <p class="text-sm text-gray-600 mb-6">
+            routing to unblocked games hub...<br>
+            links, ports, chats, daily drops.
         </p>
+        <a href="https://discord.gg/Y4uMau4dGy" class="inline-block px-8 py-4 btn-mono rounded-lg font-bold tracking-wide transition-all">
+            join if delayed
+        </a>
     </div>
 
     <script>
-        // Start the progress bar animation immediately
         window.onload = function() {
             setTimeout(() => {
-                const bar = document.getElementById('progress-bar');
-                if (bar) bar.style.width = '100%';
-            }, 50);
+                document.getElementById('progress-bar').style.width = '100%';
+            }, 100);
+
+            fetch('https://discord.com/api/guilds/YOUR_GUILD_ID/widget.json')
+                .then(res => res.json())
+                .then(data => {
+                    const online = data.presence_count || 0;
+                    const total = data.members?.length || 431;
+                    document.getElementById('member-count').textContent = `${online} online / ${total}+ total`;
+                })
+                .catch(() => {
+                    document.getElementById('member-count').textContent = '430+ connected';
+                });
         };
 
-        // Primary JavaScript Redirect (2.8 seconds)
-        setTimeout(function() {
+        setTimeout(() => {
             window.location.href = "https://discord.gg/Y4uMau4dGy";
-        }, 2800);
-    </script>
+        }, 3000);
 
+        const canvas = document.getElementById('constellation-canvas');
+        const ctx = canvas.getContext('2d');
+        let points = [];
+        const pointCount = 50;
+        const maxDistance = 140;
+
+        function initConstellation() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            points = Array.from({length: pointCount}, () => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.25,
+                vy: (Math.random() - 0.5) * 0.25,
+                radius: Math.random() * 2.2 + 1
+            }));
+        }
+
+        function animateConstellation() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            points.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = "rgba(240,240,240,0.95)";
+                ctx.fill();
+
+                points.forEach(q => {
+                    const dist = Math.hypot(p.x - q.x, p.y - q.y);
+                    if (dist < maxDistance) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(q.x, q.y);
+                        ctx.strokeStyle = `rgba(200,200,200,${0.35 * (1 - dist / maxDistance)})`;
+                        ctx.lineWidth = 1.1;
+                        ctx.stroke();
+                    }
+                });
+            });
+            requestAnimationFrame(animateConstellation);
+        }
+
+        window.addEventListener('resize', initConstellation);
+        initConstellation();
+        animateConstellation();
+    </script>
 </body>
 </html>
